@@ -1,21 +1,11 @@
 import os
-import os.path as op
 from datetime import datetime
 
-from werkzeug import secure_filename
-from sqlalchemy import event
+from flask import Flask, render_template
+from flask.ext.sqlalchemy import SQLAlchemy
 
-from flask import Flask, request, render_template
-from flask_sqlalchemy import SQLAlchemy
-
-from wtforms import fields
-
-import flask_admin as admin
-from flask_admin.form import RenderTemplateWidget
-from flask_admin.model.form import InlineFormAdmin
-from flask_admin.contrib.sqla import ModelView
-from flask_admin.contrib.sqla.form import InlineModelConverter
-from flask_admin.contrib.sqla.fields import InlineModelFormList
+from flask.ext import admin
+from flask.ext.admin.contrib.sqla import ModelView
 
 # Create application
 app = Flask(__name__)
@@ -24,19 +14,19 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456790'
 
 # Create in-memory database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.sqlite'
+app.config['DATABASE_FILE'] = 'app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}'.format(
+    app.config['DATABASE_FILE'])
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
-
-# Figure out base upload path
-base_path = op.join(op.dirname(__file__), 'static')
-
 
 # Create models
 class Banner(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    headline = db.Column(db.String(255), unique=True)
-    body = db.Column(db.Text())
+    headline = db.Column(db.Unicode(64))
+    body = db.Column(db.UnicodeText())
+    story_url = db.Column(db.String(255))
+    image_url = db.Column(db.String(255))
 
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
     updated_on = db.Column(db.DateTime(), default=datetime.utcnow,
@@ -50,74 +40,16 @@ class Banner(db.Model):
         return '<Banner - {}>'.format(self.headline)
 
 
-
-class BannerImage(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    alt = db.Column(db.String(128))
-    path = db.Column(db.String(64))
-
-    banner_id = db.Column(db.Integer, db.ForeignKey(Banner.id))
-    banner = db.relation(Banner, backref='images')
-
-
-# Register after_delete handler which will delete image file after model gets deleted
-@event.listens_for(BannerImage, 'after_delete')
-def _handle_image_delete(mapper, conn, target):
-    try:
-        if target.path:
-            os.remove(op.join(base_path, target.path))
-    except:
-        pass
-
-
-# This widget uses custom template for inline field list
-class CustomInlineFieldListWidget(RenderTemplateWidget):
-    def __init__(self):
-        super(CustomInlineFieldListWidget, self).__init__('field_list.html')
-
-
-# This InlineModelFormList will use our custom widget and hide row controls
-class CustomInlineModelFormList(InlineModelFormList):
-    widget = CustomInlineFieldListWidget()
-
-    def display_row_controls(self, field):
-        return False
-
-
-# Create custom InlineModelConverter and tell it to use our InlineModelFormList
-class CustomInlineModelConverter(InlineModelConverter):
-    inline_field_list_type = CustomInlineModelFormList
-
-
-# Customized inline form handler
-class InlineModelForm(InlineFormAdmin):
-    form_excluded_columns = ('path',)
-
-    form_label = 'Image'
-
-    def __init__(self):
-        return super(InlineModelForm, self).__init__(BannerImage)
-
-    def postprocess_form(self, form_class):
-        form_class.upload = fields.FileField('Image')
-        return form_class
-
-    def on_model_change(self, form, model):
-        file_data = request.files.get(form.upload.name)
-
-        if file_data:
-            model.path = secure_filename(file_data.filename)
-            file_data.save(op.join(base_path, model.path))
-
-
-# Administrative class
+# Customized admin interface
+# class CustomView(ModelView):
+#     list_template = 'admin/list.html'
+#     create_template = 'admin/create.html'
+#     edit_template = 'admin/edit.html'
+#
+#
 class BannerAdmin(ModelView):
-    inline_model_form_converter = CustomInlineModelConverter
-
-    inline_models = (InlineModelForm(),)
-
-    def __init__(self):
-        super(BannerAdmin, self).__init__(Banner, db.session, name='Banners')
+    column_searchable_list = ('headline',)
+    column_filters = ('headline', 'created_on')
 
 
 # Simple page to show images
@@ -126,22 +58,18 @@ def index():
     banners = db.session.query(Banner).all()
     return render_template('banners.html', banners=banners)
 
+# Admin
+admin = admin.Admin(app)
+
+# Add Views
+admin.add_view(BannerAdmin(Banner, db.session))
 
 if __name__ == '__main__':
-    # Create upload directory
-    try:
-        os.mkdir(base_path)
-    except OSError:
-        pass
+    BASE_DIR = os.path.realpath(os.path.dirname(__file__))
+    DB_PATH = os.path.join(BASE_DIR, app.config['DATABASE_FILE'])
 
-    # Create admin
-    admin = admin.Admin(app, name='Example: Inline Models')
-
-    # Add views
-    admin.add_view(BannerAdmin())
-
-    # Create DB
-    db.create_all()
+    if not os.path.exists(DB_PATH):
+        db.create_all()
 
     # Start app
     app.run(debug=True)
