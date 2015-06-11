@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 # Create application
 app = Flask(__name__)
 
+app.config['DEBUG'] = True
+
 # Create dummy secrey key so we can use sessions
 app.config['SECRET_KEY'] = '123456790'
 

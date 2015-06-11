@@ -6,7 +6,7 @@ App = {
   simple: function () {
     $('button').on('click', function (event) {
       var $embed = $('.embed');
-      $('pre').text( $embed.html() );
+      $('textarea').text( $embed.html() );
     });
 
     $('#body').on('change keypress paste focus textInput input', function () {

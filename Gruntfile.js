@@ -56,8 +56,7 @@ module.exports = function (grunt) {
       },
       livereload: {
         files: [
-          'templates/{,*/}*.html',
-          '<%%= config.app %>/{,*/}*.html',
+          '<%%= config.templates %>/{,*/}*.html',
           '<%%= config.app %>/styles/{,*/}*.css',
           '<%%= config.app %>/images/{,*/}*'
         ]
@@ -241,6 +240,16 @@ module.exports = function (grunt) {
   });
 
 
+  // New task for flask server
+  grunt.registerTask('flask', 'Run flask server.', function() {
+     var spawn = require('child_process').spawn;
+     grunt.log.writeln('Starting Flak development server.');
+     // stdio: 'inherit' let us see flask output in grunt
+     var PIPE = {stdio: 'inherit'};
+     spawn('python', ['main.py'], PIPE);
+  });
+
+
   grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
     if (grunt.option('allow-remote')) {
       grunt.config.set('connect.options.hostname', '0.0.0.0');
@@ -254,7 +263,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer',
-      'connect:livereload',
+      'flask',  //'connect:livereload',
       'watch'
     ]);
   });
