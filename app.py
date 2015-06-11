@@ -57,6 +57,10 @@ def index():
     banners = db.session.query(Banner).all()
     return render_template('banners.html', banners=banners)
 
+@app.route('/simple')
+def simple():
+    return render_template('simple.html', title='simple builder')
+
 if __name__ == '__main__':
     BASE_DIR = os.path.realpath(os.path.dirname(__file__))
     DB_PATH = os.path.join(BASE_DIR, app.config['DATABASE_FILE'])
