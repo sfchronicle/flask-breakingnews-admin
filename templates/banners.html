@@ -1,20 +1,22 @@
-<html>
-  <body>
-    <h1>Breaking news banners</h1>
-    {% for banner in banners %}
-    <section style="background: url({{ banner.image_url }});">
-      <a href="{{ banner.story_url }}" title="{{ banner.headline }}">
-        <h2>{{ banner.headline }}</h2>
-      </a>
-      <p>{{ banner.body }}</p>
-    </section>
-    <a href="{{ url_for('banners.edit_view') }}?url=%2Fadmin%2Fbanners%2F&id={{banner.id}}">Edit in admin</a>
+{% extends 'base.html' %}
 
-    <section>
-      <pre id="banner-{{banner.id}}"></pre>
-    </section>
-    <hr/>
-    {% endfor %}
-    <a href="/admin">Open admin to upload some images.</a>
-  </body>
-</html>
+{% block title %}Demo Admin | Breaking News Builder | SF Chronicle{% endblock %}
+
+{% block content %}
+<h1>Breaking news banners</h1>
+{% for banner in banners %}
+<section style="background: url({{ banner.image_url }});">
+  <a href="{{ banner.story_url }}" title="{{ banner.headline }}">
+    <h2>{{ banner.headline }}</h2>
+  </a>
+  <p>{{ banner.body }}</p>
+</section>
+<a href="{{ url_for('banners.edit_view') }}?url=%2Fadmin%2Fbanners%2F&id={{banner.id}}">Edit in admin</a>
+
+<section>
+  <pre id="banner-{{banner.id}}"></pre>
+</section>
+<hr/>
+{% endfor %}
+<a href="/admin">Open admin to upload some images.</a>
+{% endblock %}

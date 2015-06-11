@@ -1,126 +1,102 @@
-<!doctype html>
-<html class="no-js">
-  <head>
-    <meta charset="utf-8">
-    <title>Simple Breaking News Builder</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/foundation/css/normalize.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/foundation/css/foundation.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
-    <!-- endbuild -->
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
+{% extends 'base.html' %}
 
-  </head>
-  <body>
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+{% block title %}Simple Breaking News Builder | SF Chronicle {% endblock %}
 
-          <div class="row">
-            <div class="large-12 columns">
-              <header>
-                <h1>Breaking News Builder</h1>
-              </header>
+{% block content %}
+<div class="row">
+  <div class="large-12 columns">
+    <header>
+      <h1>Breaking News Builder</h1>
+    </header>
 
-              <aside style="border: 1px solid red;">
-                <section class="embed">
-                  <main class="background-image-link" style="padding: 10px; background-size: cover;">
-                    <a class="story-link" href="" title="">
-                      <h2 class="headline"></h2>
-                    </a>
-                    <p class="body"></p>
-                  </main>
-                </section>
-              </aside>
-            </div>
-          </div>
+    <aside style="border: 1px solid red;">
+      <section class="embed">
+        <main class="background-image-link" style="padding: 10px; background-size: cover;">
+          <a class="story-link" href="" title="">
+            <h2 class="headline"></h2>
+          </a>
+          <p class="body"></p>
+        </main>
+      </section>
+    </aside>
+  </div>
+</div>
 
-          <div class="row">
-            <hr>
-            <div class="medium-6 columns">
-              <section class="editor">
-                <form role="form">
+<div class="row">
+  <hr>
+  <div class="medium-6 columns">
+    <section class="editor">
+      <form role="form">
 
-                  <div class="form-group">
-                    <label for="banner-selector">Banner type</label>
-                    <select name="banner-type" id="banner-selector">
-                      <option value=""></option>
-                      <option value="">Text Only</option>
-                      <option value="">With Image</option>
-                    </select>
-                  </div>
+        <div class="form-group">
+          <label for="banner-selector">Banner type</label>
+          <select name="banner-type" id="banner-selector">
+            <option value=""></option>
+            <option value="">Text Only</option>
+            <option value="">With Image</option>
+          </select>
+        </div>
 
-                  <div class="form-group">
-                    <label for="headline">Headline</label>
-                    <input type="text" class="form-control" id="headline" placeholder="Enter your headline here">
-                  </div>
+        <div class="form-group">
+          <label for="headline">Headline</label>
+          <input type="text" class="form-control" id="headline" placeholder="Enter your headline here">
+        </div>
 
-                  <div class="form-group">
-                    <label for="body">Body text</label>
-                    <input type="text" class="form-control" id="body" placeholder="Enter your message here">
-                  </div>
+        <div class="form-group">
+          <label for="body">Body text</label>
+          <input type="text" class="form-control" id="body" placeholder="Enter your message here">
+        </div>
 
-                  <div class="form-group">
-                    <label for="story-link">Story link</label>
-                    <input type="text" class="form-control" id="story-link" placeholder="URL to story">
-                  </div>
+        <div class="form-group">
+          <label for="story-link">Story link</label>
+          <input type="text" class="form-control" id="story-link" placeholder="URL to story">
+        </div>
 
-                  <div class="form-group">
-                    <label for="background-image-link">Background image link</label>
-                    <input type="text" class="form-control" id="background-image-link" placeholder="URL to background image">
-                  </div>
+        <div class="form-group">
+          <label for="background-image-link">Background image link</label>
+          <input type="text" class="form-control" id="background-image-link" placeholder="URL to background image">
+        </div>
 
 
-                </form>
-              </section>
+      </form>
+    </section>
 
-            </div>
-            <div class="medium-6 columns">
-              <button>Generate HTML embed</button>
-              <pre></pre>
-            </div>
-          </div>
+  </div>
+  <div class="medium-6 columns">
+    <button>Generate HTML embed</button>
+    <pre></pre>
+  </div>
+</div>
+{% endblock %}
 
+{% block javascript %}
+<script>
+  'use strict';
 
-    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.js') }}"></script>
-    <script>
-      'use strict';
+  ;(function () {
 
-      ;(function () {
+      $('button').on('click', function (event) {
+        var $embed = $('.embed');
+        $('pre').text( $embed.html() );
+      });
 
-          $('button').on('click', function (event) {
-            var $embed = $('.embed');
-            $('pre').text( $embed.html() );
-          });
+      $('#body').on('change keypress paste focus textInput input', function () {
+          $('.body').text(this.value);
+      });
 
-          $('#body').on('change keypress paste focus textInput input', function () {
-              $('.body').text(this.value);
-          });
+      $('#headline').on('change keypress paste focus textInput input', function () {
+          $('.headline').text(this.value);
+      });
 
-          $('#headline').on('change keypress paste focus textInput input', function () {
-              $('.headline').text(this.value);
-          });
+      $('#story-link').on('change keypress paste focus textInput input', function () {
+          $('.story-link').attr('href', this.value);
+      });
 
-          $('#story-link').on('change keypress paste focus textInput input', function () {
-              $('.story-link').attr('href', this.value);
-          });
+      $('#background-image-link').on('change keypress paste focus textInput input', function () {
+          var url = 'url('+this.value+')'
+          $('.background-image-link').css('background-image', url);
+      });
 
-          $('#background-image-link').on('change keypress paste focus textInput input', function () {
-              var url = 'url('+this.value+')'
-              $('.background-image-link').css('background-image', url);
-          });
-
-      })();
-    </script>
-</body>
-</html>
+  })();
+</script>
+{% endblock %}
