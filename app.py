@@ -2,10 +2,10 @@ import os
 from datetime import datetime
 
 from flask import Flask, render_template
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 
-from flask.ext import admin
-from flask.ext.admin.contrib.sqla import ModelView
+import flask_admin as admin
+from flask_admin.contrib.sqla import ModelView
 
 # Create application
 app = Flask(__name__)
@@ -40,29 +40,22 @@ class Banner(db.Model):
         return '<Banner - {}>'.format(self.headline)
 
 
-# Customized admin interface
-# class CustomView(ModelView):
-#     list_template = 'admin/list.html'
-#     create_template = 'admin/create.html'
-#     edit_template = 'admin/edit.html'
-#
-#
 class BannerAdmin(ModelView):
     column_searchable_list = ('headline',)
     column_filters = ('headline', 'created_on')
 
+
+# Admin
+admin = admin.Admin(app)
+
+# Add Views
+admin.add_view(BannerAdmin(Banner, db.session, endpoint="banners"))
 
 # Simple page to show images
 @app.route('/')
 def index():
     banners = db.session.query(Banner).all()
     return render_template('banners.html', banners=banners)
-
-# Admin
-admin = admin.Admin(app)
-
-# Add Views
-admin.add_view(BannerAdmin(Banner, db.session))
 
 if __name__ == '__main__':
     BASE_DIR = os.path.realpath(os.path.dirname(__file__))
