@@ -3,22 +3,34 @@
 {% block title %}Simple Breaking News Builder | SF Chronicle {% endblock %}
 
 {% block content %}
+
+<main class="embed">
+  <section class="banner">
+    <div class="row" style="max-width: 100% !important" data-equalizer>
+      <div class="medium-2 columns" data-equalizer-watch>
+        <div class="label">
+          <h3 class="kicker-link">Breaking</h3>
+        </div>
+      </div>
+      <div class="medium-8 columns">
+        <div class="head-grp">
+          <a class="story-link" href="">
+            <h1 class="sfc-h1-head"></h1>
+          </a>
+          <p class="sfc-deck"></p>
+        </div>
+      </div>
+      <div class="medium-2 columns"></div>
+    </div>
+  <section>
+</main>
+
+
 <div class="row">
   <div class="large-12 columns">
     <header>
       <h1>Breaking News Builder</h1>
     </header>
-
-    <aside style="border: 1px solid red;">
-      <section class="embed">
-        <main class="background-image-link" style="padding: 10px; background-size: cover;">
-          <a class="story-link" href="" title="">
-            <h2 class="headline"></h2>
-          </a>
-          <p class="body"></p>
-        </main>
-      </section>
-    </aside>
   </div>
 </div>
 
@@ -71,32 +83,8 @@
 
 {% block javascript %}
 <script>
-  'use strict';
-
-  ;(function () {
-
-      $('button').on('click', function (event) {
-        var $embed = $('.embed');
-        $('pre').text( $embed.html() );
-      });
-
-      $('#body').on('change keypress paste focus textInput input', function () {
-          $('.body').text(this.value);
-      });
-
-      $('#headline').on('change keypress paste focus textInput input', function () {
-          $('.headline').text(this.value);
-      });
-
-      $('#story-link').on('change keypress paste focus textInput input', function () {
-          $('.story-link').attr('href', this.value);
-      });
-
-      $('#background-image-link').on('change keypress paste focus textInput input', function () {
-          var url = 'url('+this.value+')'
-          $('.background-image-link').css('background-image', url);
-      });
-
-  })();
+  $(document).ready(function () {
+    App.simple();
+  });
 </script>
 {% endblock %}
