@@ -1,0 +1,19 @@
+{
+  "name": "newsadmin",
+  "version": "0.0.1",
+  "homepage": "https://github.com/aboutaaron/flask-newsadmin",
+  "authors": [
+    "Aaron Williams <aaron.colby.williams@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
+}
