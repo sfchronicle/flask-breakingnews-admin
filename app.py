@@ -1,11 +1,5 @@
-import os
-from datetime import datetime
-
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
-import flask_admin as admin
-from flask_admin.contrib.sqla import ModelView
 
 # Create application
 app = Flask(__name__)
@@ -19,54 +13,3 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}'.format(
     app.config['DATABASE_FILE'])
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
-
-# Create models
-class Banner(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    headline = db.Column(db.Unicode(64))
-    body = db.Column(db.UnicodeText())
-    story_url = db.Column(db.String(255))
-    image_url = db.Column(db.String(255))
-
-    created_on = db.Column(db.DateTime(), default=datetime.utcnow)
-    updated_on = db.Column(db.DateTime(), default=datetime.utcnow,
-                                          onupdate=datetime.utcnow)
-
-    def __init__(self, headline="", body=""):
-        self.headline = headline
-        self.body = body
-
-    def __repr__(self):
-        return '<Banner - {}>'.format(self.headline)
-
-
-class BannerAdmin(ModelView):
-    column_searchable_list = ('headline',)
-    column_filters = ('headline', 'created_on')
-
-
-# Admin
-admin = admin.Admin(app)
-
-# Add Views
-admin.add_view(BannerAdmin(Banner, db.session, endpoint="banners"))
-
-# Simple page to show images
-@app.route('/')
-def index():
-    banners = db.session.query(Banner).all()
-    return render_template('banners.html', banners=banners)
-
-@app.route('/simple')
-def simple():
-    return render_template('simple.html', title='simple builder')
-
-if __name__ == '__main__':
-    BASE_DIR = os.path.realpath(os.path.dirname(__file__))
-    DB_PATH = os.path.join(BASE_DIR, app.config['DATABASE_FILE'])
-
-    if not os.path.exists(DB_PATH):
-        db.create_all()
-
-    # Start app
-    app.run(debug=True)
