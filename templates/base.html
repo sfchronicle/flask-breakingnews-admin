@@ -11,12 +11,11 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/foundation/css/normalize.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/foundation/css/foundation.css') }}">
+    {% block head %}{% endblock %}
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <!-- endbuild -->
     <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="{{ url_for('static', filename='bower_components/modernizr/modernizr.js') }}"></script>
     <!-- endbuild -->
 
   </head>
@@ -31,5 +30,12 @@
     <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
 
     {% block javascript %}{% endblock %}
+
+    {% if config.DEBUG %}
+    <script>document.write('<script src="http://'
+        + location.host.split(':')[0]
+        + ':35729/livereload.js"></'
+        + 'script>')</script>
+    {% endif %}
 </body>
 </html>

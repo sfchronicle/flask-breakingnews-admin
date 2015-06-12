@@ -40,25 +40,25 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%%= config.app %>/scripts/{,*/}*.js'],
+        files: ['<%= config.app %>/scripts/{,*/}*.js'],
         tasks: ['jshint']
       },
       gruntfile: {
         files: ['Gruntfile.js']
       },
       sass: {
-        files: ['<%%= config.app %>/styles/{,*/}*.{scss,sass}'],
+        files: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
         tasks: ['sass:server', 'autoprefixer']
       },
       styles: {
-        files: ['<%%= config.app %>/styles/{,*/}*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+        files: ['<%= config.app %>/styles/{,*/}*.css'],
+        tasks: ['autoprefixer']
       },
       livereload: {
         files: [
-          '<%%= config.templates %>/{,*/}*.html',
-          '<%%= config.app %>/styles/{,*/}*.css',
-          '<%%= config.app %>/images/{,*/}*'
+          '<%= config.templates %>/{,*/}*.html',
+          '<%= config.app %>/styles/{,*/}*.css',
+          '<%= config.app %>/images/{,*/}*'
         ]
       }
     },
@@ -70,8 +70,8 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%%= config.app %>/scripts/{,*/}*.js',
-        '!<%%= config.app %>/scripts/vendor/*',
+        '<%= config.app %>/scripts/{,*/}*.js',
+        '!<%= config.app %>/scripts/vendor/*',
         'test/spec/{,*/}*.js'
       ]
     },
@@ -85,37 +85,37 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%%= config.app %>/styles',
+          cwd: '<%= config.app %>/styles',
           src: ['*.{scss,sass}'],
-          dest: '<%%= config.app %>/styles',
+          dest: '<%= config.app %>/styles',
           ext: '.css'
         }]
       },
       server: {
         files: [{
           expand: true,
-          cwd: '<%%= config.app %>/styles',
+          cwd: '<%= config.app %>/styles',
           src: ['*.{scss,sass}'],
-          dest: '<%%= config.app %>/styles',
+          dest: '<%= config.app %>/styles',
           ext: '.css'
         }]
       }
-    },<% } %>
+    },
 
     // Add vendor prefixed styles
     autoprefixer: {
       options: {
         browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1'],
         map: {
-          prev: '<%%= config.app %>/styles'
+          prev: '<%= config.app %>/styles'
         }
       },
       dist: {
         files: [{
           expand: true,
-          cwd: '<%%= config.app %>/styles',
+          cwd: '<%= config.app %>/styles',
           src: '{,*/}*.css',
-          dest: '<%%= config.app %>/styles'
+          dest: '<%= config.app %>/styles'
         }]
       }
     },
@@ -124,9 +124,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%%= config.app %>/images',
+          cwd: '<%= config.app %>/images',
           src: '{,*/}*.{gif,jpeg,jpg,png}',
-          dest: '<%%= config.dist %>/images'
+          dest: '<%= config.dist %>/images'
         }]
       }
     },
@@ -135,9 +135,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%%= config.app %>/images',
+          cwd: '<%= config.app %>/images',
           src: '{,*/}*.svg',
-          dest: '<%%= config.dist %>/images'
+          dest: '<%= config.dist %>/images'
         }]
       }
     },
@@ -158,9 +158,9 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%%= config.dist %>',
+          cwd: '<%= config.dist %>',
           src: '{,*/}*.html',
-          dest: '<%%= config.dist %>'
+          dest: '<%= config.dist %>'
         }]
       }
     },
@@ -171,9 +171,9 @@ module.exports = function (grunt) {
     // cssmin: {
     //   dist: {
     //     files: {
-    //       '<%%= config.dist %>/styles/main.css': [
+    //       '<%= config.dist %>/styles/main.css': [
     //         '.tmp/styles/{,*/}*.css',
-    //         '<%%= config.app %>/styles/{,*/}*.css'
+    //         '<%= config.app %>/styles/{,*/}*.css'
     //       ]
     //     }
     //   }
@@ -181,8 +181,8 @@ module.exports = function (grunt) {
     // uglify: {
     //   dist: {
     //     files: {
-    //       '<%%= config.dist %>/scripts/scripts.js': [
-    //         '<%%= config.dist %>/scripts/scripts.js'
+    //       '<%= config.dist %>/scripts/scripts.js': [
+    //         '<%= config.dist %>/scripts/scripts.js'
     //       ]
     //     }
     //   }
@@ -197,8 +197,8 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%%= config.app %>',
-          dest: '<%%= config.dist %>',
+          cwd: '<%= config.app %>',
+          dest: '<%= config.dist %>',
           src: [
             '*.{ico,png,txt}',
             'images/{,*/}*.webp',
@@ -214,12 +214,12 @@ module.exports = function (grunt) {
     modernizr: {
       dist: {
         devFile: 'bower_components/modernizr/modernizr.js',
-        outputFile: '<%%= config.dist %>/scripts/vendor/modernizr.js',
+        outputFile: '<%= config.dist %>/scripts/vendor/modernizr.js',
         files: {
           src: [
-            '<%%= config.dist %>/scripts/{,*/}*.js',
-            '<%%= config.dist %>/styles/{,*/}*.css',
-            '!<%%= config.dist %>/scripts/vendor/*'
+            '<%= config.dist %>/scripts/{,*/}*.js',
+            '<%= config.dist %>/styles/{,*/}*.css',
+            '!<%= config.dist %>/scripts/vendor/*'
           ]
         },
         uglify: true
@@ -259,8 +259,6 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      'clean:server',
-      'wiredep',
       'concurrent:server',
       'autoprefixer',
       'flask',  //'connect:livereload',
@@ -277,7 +275,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
     // 'wiredep', /* enable to let grunt autopopulate (base|index).html with bower components */
     'sass',
     'autoprefixer',

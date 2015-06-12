@@ -2,39 +2,28 @@
 
 {% block title %}Simple Breaking News Builder | SF Chronicle {% endblock %}
 
+{% block head %}
+{% if config.DEBUG %}
+<link rel="stylesheet" href="{{ url_for('static', filename="styles/form.css") }}">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//www.sfchronicle.com/external/css/global.sharedmain.r6.14.1.4.css">
+<link rel="stylesheet" href="//www.sfchronicle.com/external/css/global.sharedmodules.r6.14.1.4.css">
+{% endif %}
+{% endblock %}
+
 {% block content %}
 
+{% include '_sfc-header.html' %}
 <main class="embed">
-  <section class="banner">
-    <div class="row" style="max-width: 100% !important" data-equalizer>
-      <div class="medium-2 columns" data-equalizer-watch>
-        <div class="label">
-          <h3 class="kicker-link">Breaking</h3>
-        </div>
-      </div>
-      <div class="medium-8 columns">
-        <div class="head-grp">
-          <a class="story-link" href="">
-            <h1 class="sfc-h1-head"></h1>
-          </a>
-          <p class="sfc-deck"></p>
-        </div>
-      </div>
-      <div class="medium-2 columns"></div>
-    </div>
-  <section>
+  {% include '_embed.html' %}
 </main>
 
-
-<div class="row">
+<div class="row" id="Form">
   <div class="large-12 columns">
     <header>
       <h1>Breaking News Builder</h1>
     </header>
   </div>
-</div>
-
-<div class="row">
   <hr>
   <div class="medium-6 columns">
     <section class="editor">
@@ -75,11 +64,10 @@
 
   </div>
   <div class="medium-6 columns">
-    <button>Generate HTML embed</button>
     <form>
       <div class="form-group">
         <label>Embed code</label>
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+        <textarea name="" id="" cols="30" rows="15">{% include '_embed.html' %}</textarea>
       </div>
     </form>
   </div>
