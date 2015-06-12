@@ -6,7 +6,8 @@ App = {
   simple: function () {
     var updateEmbed = function () {
       var $embed = $('.embed');
-      $('textarea').text( $embed.html() );
+      var code = '<link rel="stylesheet" href="http://s3-us-west-1.amazonaws.com/sfc-banner-builder/static/styles/main.css">';
+      $('textarea').text( code += $embed.html() );
     }
 
     $('#body').on('change keypress paste focus textInput input', function () {

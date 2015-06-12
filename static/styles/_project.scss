@@ -1,0 +1,55 @@
+.banner {
+  background-color: black;
+  margin-top: -20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.header.clearfix {
+  display: none;
+}
+
+.sfc-h1-head {
+  font-family: 'AntennaBlack', sans-serif;
+  color: white;
+  margin-bottom: 0px;
+  text-align: center;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 3.75rem;
+  line-height: 1em;
+}
+
+.sfc-deck {
+  font-family: 'Antenna';
+  color: white;
+  text-align: center;
+}
+
+.medium-2.columns {
+  padding: 0px;
+}
+
+.kicker-link {
+  font-family: 'AntennaBlack', sans-serif;
+  font-weight: normal;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1em;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
+.sfc-label {
+  display: block;
+  width: 120px;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #B71C1C;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 10px;
+}
