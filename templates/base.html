@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width">
     {% block head %}{% endblock %}
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
-
-    <script src="{{ url_for('static', filename='bower_components/modernizr/modernizr.js') }}"></script>
   </head>
   <body>
     <!--[if lt IE 10]>
@@ -16,9 +14,9 @@
     <![endif]-->
     {% block content %}{% endblock %}
 
-    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-    <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
 
     {% block javascript %}{% endblock %}
 
