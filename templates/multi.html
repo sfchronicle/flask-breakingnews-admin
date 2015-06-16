@@ -14,7 +14,16 @@
 <main {% if config.DEBUG %}class="debug"{% endif %} id="embed">
   {% include '_sfc-header.html' %}
   <div class="container">
-    {% include '_multi-embed.html' %}
+    {% include 'embeds/_multi.html' %}
   </div>
 </main>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='bower_components/jeditable/jquery.jeditable.js') }}"></script>
+<script>
+  $(document).ready(function () {
+    App.multi();
+  });
+</script>
 {% endblock %}

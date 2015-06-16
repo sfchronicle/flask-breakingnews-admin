@@ -13,7 +13,7 @@
 
 <main {% if config.DEBUG %}class="debug"{% endif %} id="embed">
   {% include '_sfc-header.html' %}
-  {% include '_embed.html' %}
+  {% include 'embeds/_simple.html' %}
 </main>
 
 <div class="row" id="Form">
@@ -65,7 +65,7 @@
     <form>
       <div class="form-group">
         <label>Embed code</label>
-        <textarea name="" id="" cols="30" rows="15">{% include '_embed.html' %}</textarea>
+        <textarea name="" id="" cols="30" rows="15">{% include 'embeds/_simple.html' %}</textarea>
       </div>
     </form>
   </div>
