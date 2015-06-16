@@ -1,12 +1,30 @@
-.banner {
+.sfc-breaking-embed {
   background-color: black;
   margin-top: -20px;
   padding-top: 20px;
   padding-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .header.clearfix {
   display: none;
+}
+
+// DEBUG STYLES
+.debug {
+  .sfc-breaking-embed {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header-branding a.logo-link {
+    height: 35px;
+  }
+}
+// END DEBUG
+
+.digital_pass_promo {
+  background-color: white;
 }
 
 a .sfc-h1-head {
@@ -55,4 +73,14 @@ a .sfc-h1-head {
   left: 0;
   right: 0;
   margin-bottom: 10px;
+}
+
+@media only screen and (min-width: 40.063em) {
+  a .sfc-h1-head {
+    font-size: 2.75em;
+  }
+
+  .sfc-breaking-embed {
+    margin-bottom: 10px;
+  }
 }

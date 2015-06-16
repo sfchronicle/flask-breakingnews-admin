@@ -11,8 +11,8 @@
 
 {% block content %}
 
-{% include '_sfc-header.html' %}
-<main class="embed">
+<main {% if config.DEBUG %}class="debug"{% endif %} id="embed">
+  {% include '_sfc-header.html' %}
   {% include '_embed.html' %}
 </main>
 
