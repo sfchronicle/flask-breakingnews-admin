@@ -1,3 +1,12 @@
+//@import 'fonts';
+
+$header: 'AntennaBlack', sans-serif;
+$dek: "AntennaMedium", sans-serif;
+$dek-alt: "Popular", sans-serif;
+$body: "FarnhamText", serif;
+
+$red: #B71C1C;
+
 .banner {
   background-color: black;
   margin-top: -20px;
@@ -22,7 +31,7 @@
 }
 
 .sfc-h1-head {
-  font-family: 'AntennaBlack', sans-serif;
+  font-family: $header;
   color: white;
   margin-bottom: 0px;
   text-align: center;
@@ -33,7 +42,7 @@
 }
 
 .sfc-deck {
-  font-family: 'Antenna';
+  font-family: $dek-alt;
   color: white;
   text-align: center;
   font-size: 1.5rem;
@@ -45,7 +54,7 @@ p {
   }
   &.sfc-deck-sty2 {
     color: white;
-    font-family: 'FarnhamText';
+    font-family: $body;
     font-size: 1rem;
     line-height: 1.4em;
     padding-right: 20px;
@@ -58,13 +67,14 @@ p {
 }
 
 .kicker-link {
-  font-family: 'AntennaBlack', sans-serif;
+  font-family: $header;
   font-weight: normal;
   color: #fff;
   font-size: 16px;
   line-height: 1em;
   margin-bottom: 0;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .label {
@@ -88,11 +98,11 @@ p {
   font-size: 1.2em;
   strong {
     text-transform: uppercase;
-    font-family: 'AntennaBlack';
+    font-family: $dek;
     margin-right: 10px;
   }
 }
 
 span.reg-head {
-  font-family: 'FarnhamText';
+  font-family: $body;
 }
