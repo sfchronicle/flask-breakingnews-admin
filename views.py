@@ -9,6 +9,10 @@ from models import Banner
 #     banners = db.session.query(Banner).all()
 #     return render_template('banners.html', banners=banners)
 
-@app.route('/builder.html')  # using file extension to keep frozen-flask happy 
+@app.route('/builder.html')  # using file extension to keep frozen-flask happy
 def simple():
     return render_template('simple.html', title='simple')
+
+@app.route('/multi.html')
+def multi():
+    return render_template('multi.html', title='simple')

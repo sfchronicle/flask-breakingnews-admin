@@ -3,9 +3,12 @@
 var App = App || {};
 
 App = {
+  multi: function () {
+
+  },
   simple: function () {
     var updateEmbed = function () {
-      var $embed = $('.embed');
+      var $embed = $('.sfc-breaking-embed');
       var code = '<link rel="stylesheet" href="http://s3-us-west-1.amazonaws.com/sfc-banner-builder/static/styles/main.css">';
       $('textarea').text( code += $embed.html() );
     }
