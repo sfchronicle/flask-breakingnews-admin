@@ -3,6 +3,19 @@
 var App = App || {};
 
 App = {
+  enableMultiEditor: function () {
+    $('.right-off-canvas-toggle').on('click', function (event) {
+      event.preventDefault();
+      $('.cd-panel').addClass('is-visible');
+    });
+
+    $('.cd-panel').on('click', function (event){
+  		if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+  			$('.cd-panel').removeClass('is-visible');
+  			event.preventDefault();
+  		}
+  	});
+  },
   _form2body: function (input, output, callback) {
     /* Take the text input and move it to output. Render optional callback*/
     $(input).on('change keypress paste focus textInput input', function () {
@@ -12,13 +25,21 @@ App = {
     });
 
   },
+  _updateMultiEmbed: function () {
+    var $embed = $('.sfc-multi-embed-container');
+    var code = '<link rel="stylesheet" href="http://s3-us-west-1.amazonaws.com/sfc-banner-builder/static/styles/main.css">'+
+      '<link rel="stylesheet" href="http://s3-us-west-1.amazonaws.com/sfc-banner-builder/static/styles/multi.css">';
+    $('textarea#embed-code').text( code += $embed.html() );
+  },
   _toggleBreakingLabel: function () {
     var template = '<div class="sfc-label"><h3 class="kicker-link">Breaking</h3></div>';
     $('input[type=radio]').on('change', function (event) {
       if (this.id === 'breakingNo') {
         $('.sfc-label').remove();
+        App._updateMultiEmbed();
       } else {
         $('.head-grp').prepend(template);
+        App._updateMultiEmbed();
       }
     });
   },
@@ -27,13 +48,17 @@ App = {
 
     $('input#kicker-link-'+count).on('change keypress paste focus textInput input', function () {
         $('a#kicker-link-'+count).attr('href', this.value);
+        App._updateMultiEmbed();
+
     });
     $('input#kicker-hed-'+count).on('change keypress paste focus textInput input', function () {
         $('span#kicker-hed-'+count).text(this.value);
+        App._updateMultiEmbed();
     });
   },
   _createKicker: function () {
-    var updateKicker = this._updateKicker;
+    var updateKicker     = this._updateKicker;
+    var updateMultiEmbed = this._updateMultiEmbed;
     var max_fields   = 5; //maximum input boxes allowed
     var $wrapper     = $(".input_fields_wrap"); //Fields wrapper
     var $add_button  = $(".add_field_button"); //Add button ID
@@ -63,7 +88,8 @@ App = {
             count++; //text box increment
             $wrapper.append( inputTemplate(count) ); //add input box
             $kickers.append( kickerTemplate(count) ); // add kicker
-            updateKicker(count) // add events
+            updateKicker(count); // add events
+            updateMultiEmbed();
         }
     });
 
@@ -74,34 +100,28 @@ App = {
       $('a#kicker-link-'+thisCount).remove();
 
       count--;
+      updateMultiEmbed();
     });
-
-    $('.right-off-canvas-toggle').on('click', function (event) {
-      event.preventDefault();
-      $('.cd-panel').addClass('is-visible');
-    });
-
-    $('.cd-panel').on('click', function (event){
-  		if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-  			$('.cd-panel').removeClass('is-visible');
-  			event.preventDefault();
-  		}
-  	});
   },
   multi: function () {
-    var f2b           = this._form2body;
-    var updateBgImage = function () {
+    App.enableMultiEditor();
+
+    var f2b              = this._form2body;
+    var updateMultiEmbed = this._updateMultiEmbed;
+    var updateBgImage    = function () {
       var url = 'url('+this.value+')';
       if (this.value !== '') {
         $('.bg').css('background-image', url);
       }
+      updateMultiEmbed();
     };
+
     this._createKicker();
     this._toggleBreakingLabel();
 
-    f2b('input#headline', '.sfc-h1-head');
-    f2b('textarea#dek', '.sfc-deck');
-    f2b('textarea#blurb', '.sfc-deck-sty2');
+    f2b('input#headline', '.sfc-h1-head', updateMultiEmbed);
+    f2b('textarea#dek', '.sfc-deck', updateMultiEmbed);
+    f2b('textarea#blurb', '.sfc-deck-sty2', updateMultiEmbed);
 
     $('input#bg-img').on('change keypress paste focus textInput input', updateBgImage);
   },

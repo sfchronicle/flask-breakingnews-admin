@@ -10,6 +10,14 @@ $red: #B71C1C;
   margin-top: -20px;
   padding: 12% 20px;
   position: relative;
+  margin-bottom: 50px;
+  top: 20px;
+}
+
+.prem_homepage_3 .digital_pass_promo {
+ float: left;
+ width: 100%;
+ margin: -20px 0 20px 0;
 }
 
 .bg {
@@ -44,6 +52,7 @@ $red: #B71C1C;
   color: white;
   text-align: center;
   font-size: 1.5rem;
+  line-height: 1.2em;
 }
 
 p {
@@ -75,21 +84,11 @@ p {
   text-align: center;
 }
 
-.label {
-  display: block;
-  width: 120px;
-  padding: 10px;
-  margin: 0 auto;
-  margin-top: 20px;
-  background-color: #B71C1C;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-bottom: 20px;
+.sfc-label {
+  margin-bottom: 20px !important;
 }
 
-.stroy-head-block h4 {
+.story-head-block h4 {
   color: white;
   border-bottom: 1px solid white;
   padding-bottom: 15px;
@@ -103,4 +102,10 @@ p {
 
 span.reg-head {
   font-family: $body;
+}
+
+@media only screen {
+ .banner {
+   margin-top: 0px;
+ }
 }

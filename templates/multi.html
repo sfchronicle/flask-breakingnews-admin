@@ -14,16 +14,15 @@
 {% block content %}
 {% include '_multi-nav.html' %}
 <hr>
-<main {% if config.DEBUG %}class="debug" style="z-index: 1;"{% endif %} id="embed">
+<main {% if config.DEBUG %}class="debug"{% endif %} style="z-index: 1;" id="embed">
   {% include '_sfc-header.html' %}
-  <div class="container">
+  <div class="sfc-multi-embed-container">
     {% include 'embeds/_multi.html' %}
   </div>
 </main>
 {% endblock %}
 
 {% block javascript %}
-<script src="{{ url_for('static', filename='bower_components/jeditable/jquery.jeditable.js') }}"></script>
 <script>
   $(document).ready(function () {
     App.multi();
