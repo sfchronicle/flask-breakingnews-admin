@@ -4,6 +4,30 @@ var App = App || {};
 
 App = {
   multi: function () {
+
+    var max_fields  = 5; //maximum input boxes allowed
+    var $wrapper    = $(".input_fields_wrap"); //Fields wrapper
+    var $add_button = $(".add_field_button"); //Add button ID
+
+    var inputTemplate    = '<section class="kicker-menu"><div class="small-8 columns"><label>Story Headline</label><input type="text" placeholder="Headline"></div><div class="small-4 columns"><label>Story URL</label><input type="text" placeholder="http://sfchronicle.com/"></div><a href="#" class="remove_field">Remove</a></section>';
+
+    var kickerTemplate   = '<a href=""><h4><strong>&raquo;</strong><span class="reg-head"></span></h4></a>';
+
+    var count = 1; //initlal text box count
+    $add_button.on('click', function (event) { //on add input button click
+        event.preventDefault();
+        if(count < max_fields) { //max input box allowed
+            count++; //text box increment
+            $wrapper.append(inputTemplate); //add input box
+        }
+    });
+
+    $wrapper.on('click', '.remove_field', function (event) { //user click on remove text
+        event.preventDefault();
+        event.target.parentElement.remove()
+        count--;
+    });
+
     $('.right-off-canvas-toggle').on('click', function (event) {
       event.preventDefault();
       $('.cd-panel').addClass('is-visible');
