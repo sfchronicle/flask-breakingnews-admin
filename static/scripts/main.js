@@ -3,7 +3,16 @@
 var App = App || {};
 
 App = {
-  multi: function () {
+  _form2body: function (input, output, callback) {
+    /* Take the text input and move it to output. Render optional callback*/
+    $(input).on('change keypress paste focus textInput input', function () {
+      $(output).text(this.value);
+
+      typeof callback === 'function' && callback();
+    });
+
+  },
+  _createKicker: function () {
 
     var max_fields  = 5; //maximum input boxes allowed
     var $wrapper    = $(".input_fields_wrap"); //Fields wrapper
@@ -39,6 +48,23 @@ App = {
   			event.preventDefault();
   		}
   	});
+  },
+  multi: function () {
+    var f2b           = this._form2body;
+    var updateBgImage = function () {
+      var url = 'url('+this.value+')';
+      if (this.value !== '') {
+        $('.bg').css('background-image', url);
+      }
+    };
+    this._createKicker();
+
+    f2b('input#headline', '.sfc-h1-head');
+    f2b('textarea#dek', '.sfc-deck');
+    f2b('textarea#blurb', '.sfc-deck-sty2');
+
+    $('input#bg-img').on('change keypress paste focus textInput input', updateBgImage);
+    
   },
   simple: function () {
     var updateEmbed = function () {
