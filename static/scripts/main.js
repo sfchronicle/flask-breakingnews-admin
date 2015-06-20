@@ -49,6 +49,7 @@ App = {
     $('input[name=extend-bg-photo]').on('change', function () {
       if (this.id === 'extendBgYes') {
         $('section.banner').prepend('<div class="bg fade"></div>');
+        $('.bg.fade').addClass('deep');
         $classes.addClass('deep');
 
         App._updateMultiEmbed();

@@ -53,6 +53,10 @@ $red: #B71C1C;
   background: linear-gradient(to bottom, rgba(0,0,0,0) 32%,rgba(0,0,0,0.95) 95%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#f2000000',GradientType=0 );
   z-index: 1;
+
+  &.deep {
+    opacity: 1;
+  }
 }
 
 .header.clearfix {
@@ -121,7 +125,7 @@ p {
   text-indent: -1.5em;
   padding-left: 1.5em;
   line-height: 1.2em;
-  text-transform: uppercase;
+  //text-transform: uppercase;
   margin-bottom: 12px;
   strong {
     font-family: $dek;
