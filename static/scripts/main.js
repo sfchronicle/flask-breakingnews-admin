@@ -32,13 +32,29 @@ App = {
     $('textarea#embed-code').text( code += $embed.html() );
   },
   _toggleBreakingLabel: function () {
-    var template = '<div class="sfc-label"><h3 class="kicker-link">Breaking</h3></div>';
-    $('input[type=radio]').on('change', function (event) {
+    var template = '<div class="sfc-label"><h3 class="sfc-kicker-link">Breaking</h3></div>';
+    $('input[name=breaking-label]').on('change', function (event) {
       if (this.id === 'breakingNo') {
         $('.sfc-label').remove();
         App._updateMultiEmbed();
       } else {
         $('.head-grp').prepend(template);
+        App._updateMultiEmbed();
+      }
+    });
+  },
+  _toggleDeepModule: function () {
+    var $classes = $('.bg, .row, .sfc-h1-head');
+
+    $('input[name=extend-bg-photo]').on('change', function () {
+      if (this.id === 'extendBgYes') {
+        $('section.banner').prepend('<div class="bg fade"></div>');
+        $classes.addClass('deep');
+
+        App._updateMultiEmbed();
+      } else {
+        $('.bg.fade').remove();
+        $classes.removeClass('deep');
         App._updateMultiEmbed();
       }
     });
@@ -111,13 +127,14 @@ App = {
     var updateBgImage    = function () {
       var url = 'url('+this.value+')';
       if (this.value !== '') {
-        $('.bg').css('background-image', url);
+        $('.bg:not(.fade)').css('background-image', url);
       }
       updateMultiEmbed();
     };
 
     this._createKicker();
     this._toggleBreakingLabel();
+    this. _toggleDeepModule();
 
     f2b('input#headline', '.sfc-h1-head', updateMultiEmbed);
     f2b('textarea#dek', '.sfc-deck', updateMultiEmbed);
