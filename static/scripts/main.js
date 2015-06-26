@@ -76,7 +76,7 @@ App = {
   _createKicker: function () {
     var updateKicker     = this._updateKicker;
     var updateMultiEmbed = this._updateMultiEmbed;
-    var max_fields   = 5; //maximum input boxes allowed
+    var max_fields   = 100; //maximum input boxes allowed
     var $wrapper     = $(".input_fields_wrap"); //Fields wrapper
     var $add_button  = $(".add_field_button"); //Add button ID
     var $kickers     = $('.story-head-block'); // kicker wrapper
